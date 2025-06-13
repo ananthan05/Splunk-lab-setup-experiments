@@ -116,4 +116,10 @@ Password: password
 
 Then click "Create / Reset Database".
 
+![image](https://github.com/user-attachments/assets/4f06802a-db6c-44ae-a588-ac742c686a05)
+
+And login again.
+
+![image](https://github.com/user-attachments/assets/23b9551a-d876-4d0a-909e-601ac98532e7)
+
 
