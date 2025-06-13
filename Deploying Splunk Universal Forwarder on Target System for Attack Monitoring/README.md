@@ -42,3 +42,10 @@ list the monitoring logs.
 
 ![image](https://github.com/user-attachments/assets/7629e441-c15b-4953-8391-9fad5984f254)
 
+Now go and check in the Splunk enterprise to see if the victim is active.
+
+![image](https://github.com/user-attachments/assets/eeaf296d-0a91-4b1b-91e5-1671fef33018)
+
+Check if our logs are being captured.
+
+![image](https://github.com/user-attachments/assets/1b93f25a-c223-4088-a751-e32ce069f64a)
