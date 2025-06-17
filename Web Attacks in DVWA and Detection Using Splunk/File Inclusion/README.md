@@ -62,3 +62,22 @@ sourcetype=access_combined
 with this command we can understadn some malicious https site was accessed,which is the attacker's local directory.The attacker tried to circumvent the http replacement by adding additional values,also the accessed file is php that is also an indication the file inclusion attack could have happened
 
 ![image](https://github.com/user-attachments/assets/e31f800b-cf18-4259-8e18-8372b3368762)
+
+```
+sourcetype=access_combined 
+| regex uri_query="(page|file|path|template)=(\.{2}|http)"
+| table _time clientip method uri uri_query status useragent
+| sort -_time
+```
+
+![image](https://github.com/user-attachments/assets/7b4168ca-4cbb-4f6e-b0b1-5281b8f98773)
+
+From this we can understand
+
+`clientip` → Source of the attack
+
+`uri` → Vulnerable endpoint (fi/ = file inclusion)
+
+`uri_query` → Parameter value (detects LFI or RFI)
+
+`status` → 200 may indicate successful inclusion
