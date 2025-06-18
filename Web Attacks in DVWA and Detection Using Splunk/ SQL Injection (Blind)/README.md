@@ -113,3 +113,71 @@ The attack was successful
 
 ## Next, we will detect the attack using Splunk
 
+```
+host=victim sourcetype="access-too_small" "sqlmap"
+```
+
+![image](https://github.com/user-attachments/assets/2b415a36-5af7-437b-a435-7986297bd40b)
+
+From this, we can see that the sqlmap user-agent was used to perform the attack.
+
+
+```
+host=victim sourcetype="access-too_small" "sqlmap" id  SLEEP
+```
+
+![image](https://github.com/user-attachments/assets/6dbfb250-d3ec-4fc3-97fb-8b25513897e6)
+
+
+ 1. Time-based Blind SQL Injection Detected
+
+The repeated use of PG_SLEEP(5) in payloads shows deliberate attempts to delay SQL responses:
+
+Examples:
+
+```sql
+...AND 9814=(SELECT 9814 FROM PG_SLEEP(5))...
+...;SELECT PG_SLEEP(5)--...
+...SELECT 3841 FROM (SELECT(SLEEP(5)))...
+```
+This is a signature of time-based blind SQLi, where delays confirm conditional truth.
+
+2. Automated Tool Used: sqlmap
+Every log includes this user-agent:
+`
+"sqlmap/1.9.2#stable (https://sqlmap.org)"
+`
+This confirms that an attacker is automating the attack using sqlmap.
+
+3. Vulnerable Parameter: id
+Payloads are being injected into the URL parameter id=1, e.g.:
+
+`/DVWA/vulnerabilities/sqli_blind/?id=1&Submit=Submit...`
+
+This suggests the id parameter is not properly sanitized and is vulnerable to SQL injection.
+
+5. Encoding Variants in Payloads
+The logs show URL-encoded values, e.g.:
+
+%3D → =
+
+%28 → (
+
+%29 → )
+
+These confirm evasion techniques are being used to bypass simple string matching.
+
+## 🧾 Summary Table
+
+| Finding           | Details                                                |
+|-------------------|--------------------------------------------------------|
+| **Attack Type**   | Time-Based Blind SQL Injection                         |
+| **Tool Used**     | sqlmap/1.9.2                                           |
+| **Vulnerable Param** | `id`                                                |
+| **Injection Method** | `SLEEP(5)`, conditional `SELECT`s, nested subqueries |
+| **Encoding Technique** | URL-encoding to hide SQLi characters             |
+
+
+
+
+
