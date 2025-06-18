@@ -35,4 +35,4 @@ The request are all http GET request and add_event_listner.js is also present.
 ![Screenshot 2025-06-18 162438](https://github.com/user-attachments/assets/6af107e9-eef3-45fe-9ff8-200628e4d685)
 
 
-The presence of add_event_listeners.js confirms DOM XSS because it contains the client-side JavaScript that reads user input from the URL and injects it into the page, enabling script execution only in the browser, not from the server.
+The presence of add_event_listeners.js and the fact that the script executes only in the browser (not from server response) confirms DOM-based XSS, as the JavaScript dynamically injects untrusted URL parameters into the page.
