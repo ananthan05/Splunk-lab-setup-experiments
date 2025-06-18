@@ -167,6 +167,17 @@ The logs show URL-encoded values, e.g.:
 
 These confirm evasion techniques are being used to bypass simple string matching.
 
+
+```
+host=victim sourcetype="access-too_small" "sqlmap"
+| rex field=_raw "^(?<clientip>\d{1,3}(?:\.\d{1,3}){3})"
+| rex field=_raw "\"(?:GET|POST) (?<uri_path>[^\s]+)"
+| rex field=_raw "\"(?<useragent>sqlmap[^\"]*)\""
+| table _time, clientip, host, useragent, uri_path
+```
+
+![image](https://github.com/user-attachments/assets/488144da-c2f7-49ce-b445-cd24ceb4b881)
+
 ## 🧾 Summary Table
 
 | Finding           | Details                                                |
@@ -176,6 +187,8 @@ These confirm evasion techniques are being used to bypass simple string matching
 | **Vulnerable Param** | `id`                                                |
 | **Injection Method** | `SLEEP(5)`, conditional `SELECT`s, nested subqueries |
 | **Encoding Technique** | URL-encoding to hide SQLi characters             |
+
+
 
 
 
