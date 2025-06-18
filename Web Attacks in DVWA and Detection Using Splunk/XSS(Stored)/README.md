@@ -27,3 +27,49 @@ Now when clicked on sign guestbook button alert will be triggered
 ![Screenshot 2025-06-18 102935](https://github.com/user-attachments/assets/dfde014c-ddf3-4384-a1ad-1f1c24aa6b05)
 
 Attack successfull, now to detect it in splunk
+
+![image](https://github.com/user-attachments/assets/a87baae3-a9fc-4cfd-ad67-0133b045adf7)
+
+We add splunk command that searches for common xss payload type like `script`
+
+On defualt the dvwa access logs doesnt show content in the post request so we need to change the php file related to the attack inorder to log the post files
+
+We need to change the medium.php file in victim pc at the path /var/www/html/DVWA/vulnerabilities/xss_s/source  with this command 
+
+```
+file_put_contents(
+    '/var/log/dvwa_post.log',
+    sprintf(
+        "IP: %s - Name: %s - Message: %s\n",
+        $_SERVER['REMOTE_ADDR'],
+        $_POST['txtName'],
+        $_POST['mtxMessage']
+    ),
+    FILE_APPEND
+);
+```
+![WhatsApp Image 2025-06-18 at 2 19 04 PM](https://github.com/user-attachments/assets/ecbbdc56-7ccb-417f-b603-7231e61defb2)
+
+Now we can get the post request contents in splunk
+
+We can use splunk command to list the logs with script payload in it using 
+
+`host="victim" | regex _raw="(?i)(<script>|onerror=|<img|alert\()"`
+
+![image](https://github.com/user-attachments/assets/a1531982-6770-4044-bc8b-b9eb851aaa45)
+
+from this the ip and the script used by attacker is visible
+
+![Screenshot 2025-06-18 143851](https://github.com/user-attachments/assets/5c05d56c-0970-4b99-b4c6-ecc0c1c348d5)
+
+
+The payload persists across page loads.
+
+It's submitted through a form (not just a URL).
+
+It auto-triggers when the page is visited again.
+
+It shows up in logs saved from a POST request (not GET)
+
+So from this we can understand it is a Stored XSS attack
+
