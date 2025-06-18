@@ -14,24 +14,24 @@ We will try giving another payload
 
 For the payload `<img src=x onerror=alert(1)` payload to work we need to break out of the <select> field
 
-so by giving `</select><img src=x onerror=alert(1)` we can successfully trigger the alert
+so by giving
+```</select><img src=x onerror=alert(1)```
+ we can successfully trigger the alert
 
 ![image](https://github.com/user-attachments/assets/c539dff0-12c7-4881-ac0d-01329719cac4)
 
 ![image](https://github.com/user-attachments/assets/d02924a1-cb8e-4337-9398-6565aa6b4b7e)
 
-Attack successful 
-
-Now monitoring in splunk
+Attack successful,Now monitoring in splunk
 
 By giving search command in splunk for the common xss releated script commands we can identify it was an xss attack
 
 `search "<img" OR "onerror" OR "alert(1)" OR "<script"`
 
-![image](https://github.com/user-attachments/assets/daee7b5f-a1ce-43f7-bfae-8c589c1e2992)
+![Screenshot 2025-06-18 161849](https://github.com/user-attachments/assets/7629a7fb-06ca-4257-a19b-0c68bb354865)
 
 The request are all http GET request and add_event_listner.js is also present
 
-![image](https://github.com/user-attachments/assets/592aaf5d-a3b2-4f3c-907f-38dbd5c1ec81)
+![Screenshot 2025-06-18 162438](https://github.com/user-attachments/assets/6af107e9-eef3-45fe-9ff8-200628e4d685)
 
 The presence of add_event_listeners.js confirms DOM XSS because it contains the client-side JavaScript that reads user input from the URL and injects it into the page, enabling script execution only in the browser, not from the server.d 
