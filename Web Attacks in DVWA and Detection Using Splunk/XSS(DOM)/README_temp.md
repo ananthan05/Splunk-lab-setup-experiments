@@ -15,7 +15,9 @@ We will try giving another payload
 For the payload `<img src=x onerror=alert(1)` payload to work we need to break out of the <select> field
 
 so by giving
+
 ```</select><img src=x onerror=alert(1)```
+
  we can successfully trigger the alert
 
 ![image](https://github.com/user-attachments/assets/c539dff0-12c7-4881-ac0d-01329719cac4)
