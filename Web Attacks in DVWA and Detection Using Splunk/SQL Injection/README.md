@@ -14,7 +14,7 @@ The attack was successful using that payload.
 ![image](https://github.com/user-attachments/assets/c59d897d-f986-45bd-b153-204ae190a6d2)
 
 
-## Next, we will detect the CSRF attack using Splunk.
+## Next, we will detect the attack using Splunk.
 
 ## 🔒 SQL Injection Detection: Logging POST Data in DVWA
 
