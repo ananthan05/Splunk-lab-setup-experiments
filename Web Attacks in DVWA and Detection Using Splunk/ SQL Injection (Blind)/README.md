@@ -111,5 +111,5 @@ sqlmap -u "http://172.17.128.158/DVWA/vulnerabilities/sqli_blind/" \
 The attack was successful
 
 
-
+## Next, we will detect the attack using Splunk
 
