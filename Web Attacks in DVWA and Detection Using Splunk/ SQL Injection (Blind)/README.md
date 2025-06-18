@@ -167,6 +167,7 @@ The logs show URL-encoded values, e.g.:
 
 These confirm evasion techniques are being used to bypass simple string matching.
 
+Table Format for easy identifiction-
 
 ```
 host=victim sourcetype="access-too_small" "sqlmap"
