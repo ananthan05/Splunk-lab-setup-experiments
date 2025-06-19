@@ -52,3 +52,31 @@ then forward the request. The attack was successful.
 ![image](https://github.com/user-attachments/assets/910b54bc-111a-4cdf-b608-288119dde7d5)
 
 ## Next, we will detect the attack using Splunk
+
+For this attack, we need to analyze the POST logs, which are not captured by default. So, we need to manually add logging code to the `medium.php` file in JavaScript
+
+change the code to this so can get post logs in splunk.
+
+```
+<?php
+
+// === [Start] Capture and Log POST Data ===
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $logfile = '/var/log/dvwa_post.log';
+
+    $phrase = isset($_POST['phrase']) ? $_POST['phrase'] : '';
+    $token = isset($_POST['token']) ? $_POST['token'] : '';
+    $expected_token = strrev("XX" . $phrase . "XX");
+
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+
+    $log_line = "$ip | phrase=$phrase | token=$token | expected=$expected_token | ua=$ua\n";
+
+    file_put_contents($logfile, $log_line, FILE_APPEND);
+}
+// === [End] Logging ===
+
+$page['body'] .= '<script src="' . DVWA_WEB_PAGE_TO_ROOT . 'vulnerabilities/javascript/source/medium.js"></script>';
+?>
+```
