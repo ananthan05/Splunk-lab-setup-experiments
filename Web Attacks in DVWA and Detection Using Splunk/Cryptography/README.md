@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/a25dac50-fdbe-4c09-99ef-1e884b092c8f)## Launching an Attack from Another PC in the LAN:
+## Launching an Attack from Another PC in the LAN:
 
 Objective:To forge a valid session token with elevated privileges (e.g., admin access) by exploiting the deterministic nature of AES-128-ECB, where blocks are encrypted independently and can be rearranged without affecting decryption.
 
