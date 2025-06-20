@@ -14,6 +14,8 @@ sudo dpkg -i splunkforwarder.deb
 
 ### Configure Splunk Forwarder
 
+Go to the `/opt/splunkforwarder/bin` directory
+
 ```
 sudo ./splunk add forward-server 172.17.128.146:9997
 ```
@@ -26,6 +28,13 @@ sudo ./splunk set deploy-poll  172.17.128.146:8089
 ```
 
 ![image](https://github.com/user-attachments/assets/495cc8f2-e347-4745-a0c5-17a7fbcd255b)
+
+
+Now run the splunk forwarder.
+
+```
+splunk start
+```
 
 Send Logs to Splunk Enterprise foe dvwa.
 
