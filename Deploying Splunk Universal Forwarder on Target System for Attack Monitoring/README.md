@@ -58,3 +58,51 @@ Now go and check in the Splunk enterprise to see if the victim is active.
 Check if our logs are being captured.
 
 ![image](https://github.com/user-attachments/assets/1b93f25a-c223-4088-a751-e32ce069f64a)
+
+DVWA doesnt log POST logs on apache logs so we need to add a custom post log for each vulnerabilities, so we will create a custom log and add it to all the vulnerabilities using bash command
+
+sudo mousepad /var/www/html/DVWA/post_logger.php 
+
+```
+<?php
+$log_file = '/var/log/dvwa_post.log';
+$data = [
+    'ip' => $_SERVER['REMOTE_ADDR'],
+    'uri' => $_SERVER['REQUEST_URI'],
+    'method' => $_SERVER['REQUEST_METHOD'],
+    'post_data' => $_POST
+];
+file_put_contents($log_file, json_encode($data) . PHP_EOL, FILE_APPEND);
+?>
+```
+
+Now to change the file permission
+
+```
+sudo touch /var/log/dvwa_post.log
+sudo chmod 666 /var/log/dvwa_post.log
+```
+
+Now we can add it to each vulnerability files
+
+```
+find /var/www/html/DVWA/vulnerabilities/ -type f -name "*.php" -exec sed -i '1i<?php include_once("/var/www/html/DVWA/post_logger.php"); ?>' {} \;
+```
+
+We can use tail command to check the log after submitting a request
+
+```
+tail -f /var/log/dvwa_post.log
+```
+
+![image](https://github.com/user-attachments/assets/1c3442dd-4020-46e9-8237-50b494e409eb)
+
+Now add this log to splunk for monitoring
+
+```
+sudo /opt/splunkforwarder/bin/./splunk add monitor /var/log/dvwa_post.log
+```
+
+![image](https://github.com/user-attachments/assets/b62996af-37c9-470a-82c2-e01545f86240)
+
+
