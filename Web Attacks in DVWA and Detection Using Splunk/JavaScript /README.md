@@ -151,3 +151,18 @@ index=main sourcetype="dvwa_post-too_small" host="victim"
 which means the attacker reverse-engineered and bypassed client-side JS validation.
 
 Attack detected.
+
+
+### After the POST log format changed , the previous command may no longer work. To adapt to the new structure, we need to try the following command instead.
+
+```
+index=main sourcetype="dvwa_post-too_small" host="victim1"
+| spath path=ip output=ip
+| spath path=post_data.token output=token
+| spath path=post_data.phrase output=phrase
+| eval expected_token = "XXsseccusXX"
+| eval is_manual_bypass = if(token == expected_token, "✅ Manual JS bypass likely", "❌ Token mismatch or failed attempt")
+| table _time, ip, phrase, token, expected_token, is_manual_bypass
+```
+
+![image](https://github.com/user-attachments/assets/71490c18-5be3-49b4-95a1-b8615efff7fc)
