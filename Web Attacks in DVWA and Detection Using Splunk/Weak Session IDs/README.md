@@ -38,4 +38,3 @@ Even without viewing the source, this number format will look familiar to any ex
 
 attack completed
 
-## Next, we will detect the attack using Splunk
