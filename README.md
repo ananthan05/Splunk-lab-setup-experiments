@@ -27,8 +27,8 @@ This demonstrates **offensive** (attacks on DVWA) and **defensive** (detection i
 ## ⚙️ Setup Instructions
 
 See detailed guides in the `setup/` directory:
-- **`vm_setup.md`**: Configures kali VM with DVWA on a LAN IP.
-- **`splunk_setup.md`**: Installs Splunk Enterprise and Universal Forwarder, configures data inputs (web logs, auth logs, custom DVWA logs).
+- **`Configuring DVWA on a Target System via Host IP`**: Configures kali VM with DVWA on a LAN IP.
+- **`Deploying Splunk Universal Forwarder on Target System for Attack Monitoring`**: Installs Universal Forwarder, configures data inputs (web logs, auth logs, custom DVWA logs).
 
 ---
 
