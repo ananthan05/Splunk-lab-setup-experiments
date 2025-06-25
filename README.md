@@ -34,7 +34,7 @@ See detailed guides in the `setup/` directory:
 
 ## 🚀 Attack Simulations
 
-Each attack is documented in `attacks/`, with:
+Each attack is documented in `Web Attacks in DVWA and Detection Using Splunk/`, with:
 
 - **Objective**  
 - **Tools used** (e.g., Burp Suite, curl, browser)
